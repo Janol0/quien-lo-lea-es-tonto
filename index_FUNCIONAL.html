@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Power Up's</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: sans-serif; background: #111; color: #fff; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+
+    #gate {
+      text-align: center;
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+    }
+    #gate h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    #gate p { color: #aaa; margin-bottom: 1.5rem; }
+    #gate input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #222;
+      color: #fff;
+      margin-bottom: 1rem;
+      text-align: center;
+      letter-spacing: 0.1em;
+    }
+    #gate button {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      background: #e63946;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    #gate button:hover { background: #c1121f; }
+    #error { color: #e63946; margin-top: 1rem; font-size: 0.9rem; min-height: 1.2rem; }
+
+    #used-screen {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      max-width: 400px;
+    }
+    #used-screen h1 { font-size: 1.8rem; margin-bottom: 1rem; }
+    #used-screen p { color: #aaa; }
+
+    #game-container {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+    }
+    #game-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="gate">
+    <h1>⚡ Power Up's</h1>
+    <p>Introduce tu código de acceso</p>
+    <input type="text" id="token-input" placeholder="Tu código" autocomplete="off" />
+    <button onclick="checkToken()">Entrar</button>
+    <div id="error"></div>
+  </div>
+
+  <div id="used-screen">
+    <h1>⚡ Power Up's</h1>
+    <p>Ya has abierto tus Power Up's</p>
+  </div>
+
+  <div id="game-container">
+    <iframe id="game-frame" src="game/index.html" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    const TOKENS = {
+      "CODIGO1": false,
+      "CODIGO2": false,
+      "CODIGO3": false,
+      "CODIGO4": false,
+      "CODIGO5": false,
+      "CODIGO6": false,
+      "CODIGO7": false,
+      "CODIGO8": false,
+      "CODIGO9": false,
+      "CODIGO10": false,
+      "JUEGO1": false,
+      "JUEGO2": false,
+      "JUEGO3": false,
+      "JUEGO4": false,
+      "JUEGO5": false,
+      "JUEGO6": false,
+      "JUEGO7": false,
+      "JUEGO8": false,
+      "JUEGO9": false,
+      "JUEGO10": false,
+      "TEST1": false,
+      "TEST2": false,
+      "TEST3": false,
+      "TEST4": false,
+      "TEST5": false,
+      "ACCESO1": false,
+      "ACCESO2": false,
+      "ACCESO3": false,
+      "ACCESO4": false,
+      "ACCESO5": false,
+      "DEMO1": false,
+      "DEMO2": false,
+      "DEMO3": false,
+      "DEMO4": false,
+      "DEMO5": false,
+      "BETA1": false,
+      "BETA2": false,
+      "BETA3": false,
+      "BETA4": false,
+      "BETA5": false,
+      "ALPHA1": false,
+      "ALPHA2": false,
+      "ALPHA3": false,
+      "ALPHA4": false,
+      "ALPHA5": false,
+      "POWER1": false,
+      "POWER2": false,
+      "POWER3": false,
+      "POWER4": false,
+      "POWER5": false,
+      "UPS1": false,
+      "UPS2": false,
+      "UPS3": false,
+      "UPS4": false,
+      "UPS5": false
+    };
+
+    function checkToken() {
+      const input = document.getElementById("token-input").value.trim().toUpperCase();
+      const errorEl = document.getElementById("error");
+
+      if (!(input in TOKENS)) {
+        errorEl.textContent = "Código incorrecto.";
+        return;
+      }
+
+      const usedKey = "used_" + input;
+      if (localStorage.getItem(usedKey)) {
+        showUsed();
+        return;
+      }
+
+      localStorage.setItem(usedKey, "1");
+      showGame();
+    }
+
+    function showUsed() {
+      document.getElementById("gate").style.display = "none";
+      document.getElementById("used-screen").style.display = "block";
+    }
+
+    function showGame() {
+      document.getElementById("gate").style.display = "none";
+      document.getElementById("game-container").style.display = "block";
+    }
+
+    document.getElementById("token-input").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") checkToken();
+    });
+  </script>
+
+</body>
+</html>
