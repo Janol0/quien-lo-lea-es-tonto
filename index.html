@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Power Up's</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: sans-serif; background: #111; color: #fff; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    #gate { text-align: center; padding: 2rem; max-width: 400px; width: 100%; }
+    #gate h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    #gate p { color: #aaa; margin-bottom: 1.5rem; }
+    #gate input { width: 100%; padding: 0.75rem 1rem; font-size: 1rem; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; margin-bottom: 1rem; }
+    #gate button { width: 100%; padding: 0.75rem; font-size: 1rem; background: #e63946; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    #gate button:hover { background: #c1121f; }
+    #error { color: #e63946; margin-top: 1rem; }
+    #used-screen { display: none; text-align: center; padding: 2rem; }
+    #game-container { display: none; width: 100vw; height: 100vh; }
+    #game-container iframe { width: 100%; height: 100%; border: none; }
+  </style>
+</head>
+<body>
+  <div id="gate">
+    <h1>⚡ Power Up's</h1>
+    <p>Introduce tu código</p>
+    <input type="text" id="token-input" placeholder="Tu código" />
+    <button onclick="checkToken()">Entrar</button>
+    <div id="error"></div>
+  </div>
+  <div id="used-screen">
+    <h1>⚡ Power Up's</h1>
+    <p>Ya has abierto tus Power Up's</p>
+  </div>
+  <div id="game-container">
+    <iframe src="game/index.html"></iframe>
+  </div>
+  <script>
+    const codes = ["k7Tx9pQm2R", "wJ4vL8nB3K", "dF2sH6jW1Y", "cP5aG9mE7X", "bR3tQ8uZ4D", "nV6yF1wL9S", "hM8cK2jP5N", "qX7dL4gR2T", "zW3sM9pK6J", "fB5vC1nH8F", "lD7rT2qM4G", "eJ9wK3sH6P", "oA2fV5cR8L", "iS4mN1tW7B", "uC6pD3jE9X", "yG8hF2kV5Q", "rI1nL7sM4Z", "tO5jK9mR2A", "xE3vG6dB1C", "pU8lW4nF7D", "sY2jH5kT9E", "vM6rP1wQ3F", "gK4cL8bJ2G", "jD9sE5tV1H", "mH3pK7gN4I", "nB8vC2rL6J", "qF1tS4uM9K", "wL5jP2dR7M", "yN3gV8sK6N", "zP9tF1jW4O", "aR6cM2bL8P", "cT4dG7nE1Q", "eV2hK5pF9R", "fX8jQ3rM6S", "hZ1sL4vN9T", "jB5tP7wK2U", "kD9mR3gL1V", "mF2nT6sQ5W", "nH7pV1rK8X", "pJ3sG5tM2Y", "rL8uH9vP4Z", "tN1vK6wF3A", "uP4dL7rM9B", "vR2tG5sN1C", "wT6pK9jL4D", "xV3mN1hF7E", "yX5qP2rJ8F", "zA8tL4sK6G", "bC1vM9nW2H", "dE7jH3pK5I"];
+    function checkToken() {
+      const input = document.getElementById("token-input").value.trim();
+      const errorEl = document.getElementById("error");
+      if (!codes.includes(input)) {
+        errorEl.textContent = "Código incorrecto";
+        return;
+      }
+      const key = "used_" + input;
+      if (localStorage.getItem(key)) {
+        document.getElementById("gate").style.display = "none";
+        document.getElementById("used-screen").style.display = "block";
+        return;
+      }
+      localStorage.setItem(key, "1");
+      document.getElementById("gate").style.display = "none";
+      document.getElementById("game-container").style.display = "block";
+    }
+    document.getElementById("token-input").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") checkToken();
+    });
+  </script>
+</body>
+</html>
